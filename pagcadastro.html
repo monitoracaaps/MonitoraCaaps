@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylecadastro.css"> 
+    <title>Tela Cadastro</title>
+</head>
+<style>
+    
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    border-radius: 30px; /* Bordas arredondadas */
+    padding: 10px 12px;
+    margin: 0 auto; /* Centraliza o container horizontalmente */
+    background-color: #f9f9f95b;
+    margin-left: 12px;
+}
+
+.input-container i {
+    margin-right: 15px;
+    color: #666;
+}
+
+.input-container input {
+    border: none;
+    background: none;
+    margin-left: -15px;
+    margin-right: -15px;
+    outline: none;
+    font-size: 16px;
+    flex: 1; /* Ocupa o espaço disponível no container */
+    border-radius: 30px; /* Bordas arredondadas */
+
+}
+.input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.685);
+    font-size: 15px;
+}
+    </style>
+<body>
+    <img src="img/Logo.png"></img>
+
+    <br>
+    <br>
+    <br>
+    <div class="login-container">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h1 style="font-size: 25px; color: #ffffff;">Cadastre-se!</h1>
+        
+        <form method="POST" action="inserir_cadastro.php">
+        <div class="input-container">
+            <i  style="color: #f8f8f8;" class="fas fa-user"></i>
+            <input type="text" name="name" placeholder="Nome" id="name" required>
+        </div>
+        <br>
+        <div class="input-container">
+            <i  style="color: #f8f8f8;" class="fas fa-envelope" ></i>
+            <input type="email" name="email" placeholder="Email" id="email" required>
+        </div>
+        <br>
+        <div class="input-container">
+            <i style="color: #f8f8f8;" class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Senha" id="password" required>
+            <i style="color: #f8f8f8; bottom: 30px; margin-left:-40px" id="showPassword1" class="fas fa-eye"></i>
+
+        </div>
+        <br>
+        <div class="input-container">
+            <i style="color: #f8f8f8;" class="fas fa-lock"></i>
+            <input type="password" placeholder="Confirmar Senha" id="confpassword" required>
+            <i style="color: #f8f8f8;" id="showPassword2" class="fas fa-eye"></i>
+
+        </div>
+        <div style="margin-top: 20px;" class="login-links">
+            <label style="margin-left: 26px;     color: #fff;
+            font-size: 12px;
+            transition: color 0.3s ease;" class="remember-checkbox">
+                  <input type="checkbox">
+                  Lembrar senha
+              </label>
+              <a style="margin-right: 30px;" href="index.html" class="signup-link">Login</a>
+          </div>
+          <br>
+          <button class="login-btn">
+            <div class="button-content">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <span class="loading-text"  onclick="mostrarMensagem()">Enviar</span>
+            </div>
+        </button> 
+        <div id="success-message" style="display: none; color: rgb(255, 255, 255); font-size: 16px;">
+            Cadastro inserido com sucesso!
+          </div>
+          
+    </form>     
+    </div>
+
+</body>
+    <script>
+
+    const inputContainers = document.querySelectorAll('.input-container');
+
+    inputContainers.forEach(container => {
+        container.addEventListener('click', () => {
+            inputContainers.forEach(item => {
+                item.classList.remove('clicked');
+            });
+
+            container.classList.add('clicked');
+        });
+    });
+
+    document.querySelector('.login-btn').addEventListener('click', function (e) {
+    const button = this;
+    button.classList.add('loading');
+    
+    const inputPassword = document.getElementById("password")
+    const inputConfPassword = document.getElementById("confpassword")
+
+    if(inputPassword.value !== inputConfPassword.value){
+        e.preventDefault()
+        button.classList.remove('loading');
+        alert(" As senhas não coincidem")
+        return
+    }
+
+    // Simulando um atraso na ação
+    setTimeout(function () {
+        button.classList.remove('loading');
+    }, 3000); // Defina o tempo que desejar em milissegundos
+});
+
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[results[2].replace(/\+/g, " ")]);
+}
+function mostrarMensagem() {
+    const successMessage = "Cadastro inserido com sucesso!";
+    const errorMessage = "Erro ao inserir cadastro!";
+    
+    const cadastroBemSucedido = true; // Defina isso com base na lógica real
+
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+
+    if (cadastroBemSucedido) {
+        notification.innerText = successMessage;
+        notification.style.backgroundColor = 'white';
+        notification.style.marginTop = '-200px';
+        notification.style.textAlign = 'center';
+        notification.style.padding = '10px';
+        notification.classList.add('fadeInSlow'); // Adicione a classe de animação mais lenta
+    } else {
+        notification.innerText = errorMessage;
+        notification.style.backgroundColor = 'white';
+        notification.style.marginTop = '-200px';
+        notification.style.padding = '10px';
+        notification.classList.add('fadeInSlow'); // Adicione a classe de animação mais lenta
+    }
+
+    document.body.appendChild(notification);
+
+    // Remover a classe de animação após 5 segundos (tempo mais longo)
+    setTimeout(function () {
+        notification.classList.remove('fadeInSlow');
+    }, 10000); // Aumente o tempo para 5 segundos
+}
+
+
+document.getElementById('showPassword1').addEventListener('click', function () {
+    const inputPassword = document.getElementById('password');
+    if (inputPassword.type === 'password') {
+        inputPassword.type = 'text';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+    } else {
+        inputPassword.type = 'password';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+    }
+});
+
+document.getElementById('showPassword2').addEventListener('click', function () {
+    const inputConfPassword = document.getElementById('confpassword');
+    if (inputConfPassword.type === 'password') {
+        inputConfPassword.type = 'text';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+    } else {
+        inputConfPassword.type = 'password';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+    }
+});
+</script>
+
+</style>
+</html>

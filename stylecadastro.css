@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("img/background.png");
+    background-size: cover;
+}
+
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.login-container h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login-btn {
+    border: none;
+    background-color: #ffffff;
+    color: #5e5e5e;
+    padding: 15px 110px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.toggle-password {
+    position: absolute;
+    top: 190px;
+    right: 30px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+img{
+  padding: 10px;
+  width: 190px;
+  margin-left: 70px;
+  margin-top: 70px;
+}
+i {
+    margin-right: 10px;
+    font-size: 17px;
+    color: #f8f8f8;
+    padding: 5px; 
+}
+.login-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.login-links a {
+    color: #fff;
+    text-decoration:underline;
+    font-size: 12px;
+    transition: color 0.3s ease;
+}
+
+.login-links a:hover {
+    color: #a5a5a5;
+}
+
+.input-container.clicked {
+    border: 2px solid #eeeeee; /* Cor da borda em destaque */
+
+}
+
+.login-btn .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-btn.loading .button-content {
+    opacity: 0.7; /* Opacidade reduzida durante o carregamento */
+    padding: 9px 20px;
+
+}
+
+.login-btn.loading .loading-dots {
+    display: flex;
+}
+
+.login-btn.loading .loading-text {
+    display: none; /* Esconder o texto "Entrar" durante o carregamento */
+}
+
+.loading-dots {
+    display: none;
+    position: absolute; /* Adicionado posicionamento absoluto */
+    top: 50%; /* Posiciona as bolinhas no centro verticalmente */
+    left: 50%; /* Posiciona as bolinhas no centro horizontalmente */
+    transform: translate(-50%, -50%); /* Centraliza as bolinhas */
+}
+
+.loading-dots .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #555;
+    border-radius: 50%;
+    animation: bounce 1s infinite;
+    margin: 0 2px; /* Espaçamento entre as bolinhas */
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+.success-message {
+    color: rgb(149, 186, 228);
+}
+
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    display: block;
+    transition: all 0.3s ease-in-out;
+    margin-top: 50px;
+}
+
+.notification.hide {
+    display: none;
+}
+.notification.fadeInSlow {
+    animation: fadeInSlow 10s ease; /* Aumente a duração da animação */
+}
+
+@keyframes fadeInSlow {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

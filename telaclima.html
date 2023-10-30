@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Clima</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+         <div class="navbar" id="navbar">
+            <a href="primeiratela.php">
+                <span></span>
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="telaclima.html" class="active">
+                <span></span>
+                <i class="fas fa-cloud-sun" ></i>
+            </a>
+            <a href="relatorios.html" >
+                <span></span>
+                <i class="fas fa-chart-bar"></i>
+            </a>
+            <a href="config.html">
+                <span></span>
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
+        
+        <div class="notification-icon">
+            <a style="color: white" href="notificacoes.php">
+                <i class="fas fa-bell"></i>
+            </a>
+        </div>
+        
+<br>
+        <p style="color: rgb(255, 255, 255); font-size:18px; margin-top: 10px; margin-left: 110px;" class="city">Atibaia, São Paulo</p>
+           
+        <img id="" class="weather-icon" style="position: absolute;
+        left: 50%;
+        bottom: 510px;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #fff;
+        font-size: 60px; height:140px;">
+
+        <div class="weather-container">
+          
+                <h2 style="font-size: 42px;        position: absolute;
+                left: 50%;
+                bottom: 40px;
+                transform: translateX(-50%);
+                text-align: center;
+                color: #fff;" class="temperature">0°C</h2>
+                <p style="font-size: 15px;" class="description">Descrição do clima</p>
+
+                <p style="font-size: 15px;" class="temperature-range">Max.: 0 | Min.: 0</p>
+            </div>
+        </div>
+        <div class="infoclima" id="infoclima">
+            <div class="weather-info">
+                <div class="weather-icon">
+                    <i class="fas fa-tint" style="color: rgb(255, 255, 255);" ></i>
+                </div>
+                <div class="info-text">
+                    <span class="precipitation" style="color: rgb(255, 255, 255); font-size: 14px;">0%</span>
+                </div>
+            </div>
+            <div class="weather-info">
+                <div class="weather-icon">
+                    <i class="fa-solid fa-temperature-three-quarters" style="color: #ffffff;"></i>
+                </div>
+                <div class="info-text">
+                    <span class="temperature temp2" style="color: rgb(255, 255, 255); font-size: 14px;">0°C</span>
+                </div>
+            </div>
+            <div class="weather-info">
+                <div class="weather-icon">
+                    <i class="fa-solid fa-wind" style="color: rgb(255, 255, 255);"></i>
+                </div>
+                <div class="info-text">
+                    <span class="wind" style="color: rgb(255, 255, 255); font-size: 14px;">0km/h</span>
+                </div>
+            </div>
+        </div>
+        
+
+<div class="hourly-table">
+
+</div>
+
+
+<div style="height:400px; bottom:-260px" class="precip-table">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="weather-data">
+        </tbody>
+    </table>
+  </div>
+
+  <div class="space-after-table">
+    <h2 style="font-size: 42px;        position: absolute;
+                left: 50%;
+                bottom: -1000px;
+                transform: translateX(-50%);
+                text-align: center;
+                color: #869eb6;">espaço</h2>
+   </div>
+
+        </body>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const city = "Atibaia,br";
+    const apiKey = "f9bcde7961a17c3b0ee58dd33625a027";
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt_br`;
+
+
+
+
+    
+    const weatherIconElement = document.querySelector(".weather-icon");
+    const temperatureElement = document.querySelector(".temperature");
+    const temperatureElement2 = document.querySelector(".temp2");
+    const descriptionElement = document.querySelector(".description");
+    const temperatureRangeElement = document.querySelector(".temperature-range");
+    const precipitationElement = document.querySelector(".precipitation");
+    const windElement = document.querySelector(".wind");
+
+
+
+
+    
+    fetch(weatherUrl)
+
+    
+        .then((response) => response.json())
+        .then((data) => {
+            const iconCode = data.weather[0].icon;
+            const temperature = Math.round(data.main.temp);
+            const minTemp = Math.round(data.main.temp_min);
+            const maxTemp = Math.round(data.main.temp_max);
+            const precipitation = data.main.humidity;
+            const windSpeed = data.wind.speed;
+            
+            const iconMapping = {
+           //ceu limpo (dia e noite)
+            "01d": "ensolarado.png",
+            "01n": "Moon.png",
+
+           //nuvens no ceu (dia e noite)
+
+            "02d": "sun clouds-1.png",
+            "02n": "Moon clouds.png",
+            "03d": "sunclouds.png",
+            "03n": "Moon,stars and cloud.png",
+            "04d": "nublado.png",
+            "04n": "Moon clouds.png",
+        
+            //chuva
+            "09d": "Group 11.png",
+            "09n": "Group 11.png",
+            "10d": "sun rain.png",
+            "10n": "moon and rain.png",
+
+            //ceu limpo (noite)
+
+            "11d": "Thunder.png",
+            "11n": "Thunder.png",
+
+            //neblina
+            "50d": "mist-day.png",
+            "50n": "mist-night.png",
+        };
+
+
+            // Verifica se o código do ícone está no mapeamento
+            if (iconMapping.hasOwnProperty(iconCode)) {
+                const imageUrl = `img/${iconMapping[iconCode]}`;
+                // Atualiza o atributo src da imagem com a URL da imagem correspondente
+                weatherIconElement.src = imageUrl;
+            } else {
+                weatherIconElement.src = "img/default.png"; //imagem padrão
+            }
+
+            // Define o texto das outras informações
+            temperatureElement.textContent = `${temperature}°C`;
+            temperatureElement2.textContent = `${temperature}°C`;
+            descriptionElement.textContent = data.weather[0].description;
+            temperatureRangeElement.textContent = `Max.: ${maxTemp}°C | Min.: ${minTemp}°C`;
+            precipitationElement.textContent = `${precipitation}%`;
+            windElement.textContent = `${windSpeed} km/h`;
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar dados do clima:", error);
+        });
+});
+
+
+
+// Função para exibir uma notificação
+function showNotification(title, options) {
+    if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
+            // Se as notificações estão permitidas, exiba a notificação
+            new Notification(title, options);
+        } else if (Notification.permission !== 'denied') {
+            // Caso contrário, solicite permissão para notificações
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    // Se o usuário permitir, exiba a notificação
+                    new Notification(title, options);
+                }
+            });
+        }
+    }
+}
+  const currentTemperature = Math.round(data.list[0].main.temp);
+        showNotification("Clima Atual", {
+            body: `A temperatura atual é ${currentTemperature}°C.`,
+        });
+        
+    </script>
+    <script>
+    //Tabela previsao
+    document.addEventListener("DOMContentLoaded", function () {
+    const apiKey = "f9bcde7961a17c3b0ee58dd33625a027";
+    const city = "Atibaia,br";
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+    const hourlyTable = document.querySelector(".hourly-table"); // Seleciona a tabela
+
+    // Mapeamento de códigos de ícones para classes CSS
+        const iconMapping = {
+    '01d': 'fas fa-sun', // Sol para dia limpo
+    '01n': 'fas fa-moon', // Lua para noite limpa
+    '02d': 'fas fa-cloud-sun', // Sol com nuvens para dia parcialmente nublado
+    '02n': 'fas fa-cloud-moon', // Lua com nuvens para noite parcialmente nublada
+    '03d': 'fas fa-cloud', // Nuvens para dia nublado
+    '03n': 'fas fa-cloud', // Nuvens para noite nublada
+    '04d': 'fas fa-cloud', // Nuvens carregadas para dia nublado
+    '04n': 'fas fa-cloud', // Nuvens carregadas para noite nublada
+    '09d': 'fas fa-cloud-showers-heavy', // Chuva forte para dia chuvoso
+    '09n': 'fas fa-cloud-showers-heavy', // Chuva forte para noite chuvosa
+    '10d': 'fas fa-cloud-rain', // Chuva para dia chuvoso
+    '10n': 'fas fa-cloud-rain', // Chuva para noite chuvosa
+    '11d': 'fas fa-bolt', // Tempestade para dia tempestuoso
+    '11n': 'fas fa-bolt', // Tempestade para noite tempestuosa
+    '13d': 'fas fa-snowflake', // Neve para dia nevado
+    '13n': 'fas fa-snowflake', // Neve para noite nevada
+    '50d': 'fas fa-smog', // Neblina para dia com neblina
+    '50n': 'fas fa-smog', // Neblina para noite com neblina
+        
+    };
+
+    function updateHourlyTable() {
+        // Limpa a tabela existente e atualiza
+        hourlyTable.innerHTML = "";
+
+        // Faz a chamada da API para obter os dados de previsão
+        fetch(weatherUrl)
+            .then(response => response.json())
+            .then(data => {
+                const hourlyData = data.list;
+                const now = new Date();
+                const currentHour = now.getHours();
+
+                // Registro
+                const nearestHours = [currentHour + 1, currentHour + 2, currentHour + 3];
+
+                // Pega as horas próximas
+                nearestHours.forEach(hour => {
+                    const nearestEntry = hourlyData.find(entry => {
+                        const entryHour = new Date(entry.dt * 1000).getHours();
+                        return entryHour === hour;
+                    });
+
+                    const tableEntry = document.createElement("div");
+                    tableEntry.classList.add("hourly-entry");
+
+                    if (nearestEntry) {
+                        const hour = new Date(nearestEntry.dt * 1000).toLocaleTimeString("pt-BR", { hour: "numeric", minute: "numeric" });
+                        const temperature = Math.round(nearestEntry.main.temp);
+                        const weatherIconCode = nearestEntry.weather[0].icon;
+
+                        // Obtenha a classe de ícone correspondente do mapeamento
+                        const iconClass = iconMapping[weatherIconCode] || 'fas fa-question'; // 'fas fa-question' para ícone de interrogação padrão se não houver correspondência
+
+                        // Ordem dos registros
+                        tableEntry.innerHTML = `
+                            <div class="hour">${hour}</div>
+                            <i class="${iconClass}"></i>
+                            <div class="temperature">${temperature}°C</div>
+                        `;
+                    } else {
+                        // Se não houver registro pronto, ele mostra --
+                        tableEntry.innerHTML = `
+                            <div class="hour">${hour}:00</div>
+                            <i class="fas fa-question"></i> <!-- Ícone de interrogação padrão -->
+                            <div class="temperature">--°C</div>
+                        `;
+                    }
+
+                    hourlyTable.appendChild(tableEntry);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados de previsão:", error);
+            });
+    }
+
+// Atualizar a tabela a cada 5 minutos
+setInterval(updateHourlyTable, 300000);
+// chamar a função de atualização inicialmente
+updateHourlyTable();
+});
+
+    </script>
+    <script>
+                // Substitua pela sua chave de API do OpenWeather
+                const apiKey = "f9bcde7961a17c3b0ee58dd33625a027";
+
+        // Cidade e país para a previsão do tempo (exemplo: São Paulo, BR)
+        const cidade = 'Atibaia';
+        const pais = 'BR';
+        // URL da API do OpenWeathe
+        
+        // URL da API do OpenWeather
+        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cidade},${pais}&appid=${apiKey}`;
+
+       
+        // Função para converter temperatura de Kelvin para Celsius
+        function kelvinToCelsius(tempKelvin) {
+            return (tempKelvin - 273.15).toFixed(1);
+        }
+
+        async function fetchWeatherData() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    const forecastData = data.list;
+                    const weatherDataElement = document.getElementById('weather-data');
+                    const daysData = {};
+
+                    forecastData.forEach(item => {
+                        const date = new Date(item.dt * 1000);
+                        
+const options = { weekday: 'long' };
+const dayOfWeek = date.toLocaleDateString('pt-BR', options).replace('-feira', '');
+
+                        // Verifica se já temos um registro para o dia da semana
+                        if (!daysData[dayOfWeek]) {
+                            const icon = `<img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="${item.weather[0].description}"/>`;
+                            const tempMax = kelvinToCelsius(item.main.temp_max);
+                            const tempMin = kelvinToCelsius(item.main.temp_min);
+
+                            const row = `
+                                <tr>
+                                    <td>${dayOfWeek}</td>
+                                    <td>${icon}</td>
+                                    <td>${tempMax} °C</td>
+                                    <td>${tempMin} °C</td>
+                                </tr>
+                            `;
+
+                            weatherDataElement.innerHTML += row;
+
+                            // Marca o dia da semana como registrado
+                            daysData[dayOfWeek] = true;
+                        }
+                    });
+                } else {
+                    console.error('Erro ao obter dados da API.');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        fetchWeatherData(); // Chama a função para buscar os dados do tempo
+
+
+
+
+
+        
+    // Função para exibir uma notificação
+    function showNotification(title, options) {
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                // Se as notificações estão permitidas, exiba a notificação
+                new Notification(title, options);
+            } else if (Notification.permission !== 'denied') {
+                // Caso contrário, solicite permissão para notificações
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // Se o usuário permitir, exiba a notificação
+                        new Notification(title, options);
+                    }
+                });
+            }
+        }
+    }
+
+    fetch(weatherUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            // Seu código de atualização de clima ...
+
+            // Exemplo de notificação para dados de clima atual
+            const currentTemperature = Math.round(data.main.temp);
+            showNotification("Clima Atual", {
+                body: `A temperatura atual é ${currentTemperature}°C.`,
+            });
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar dados do clima:", error);
+        });
+
+    // Exemplo de notificação para dados da tabela 'infoclima'
+    const precipitation = 0; // Substitua pelo valor real da precipitação
+    showNotification("Informações do Clima", {
+        body: `Chance de precipitação: ${precipitation}%`,
+    });
+    if ("Notification" in window) { // Verifica se o navegador suporta notificações
+        // Verifica se o usuário permite notificações
+        if (Notification.permission === "granted") {
+            // Se as notificações são permitidas, exiba uma notificação de teste
+            const notification = new Notification("Notificação de Teste", {
+                icon: "img/Logo.png",
+                body: "Este é um teste de notificação.",
+            });
+        } else if (Notification.permission !== "denied") {
+            // Caso o usuário não tenha definido permissões, solicite permissão
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    const notification = new Notification("Notificação de Teste", {
+                        icon: "img/Logo.png",
+                        body: "Este é um teste de notificação.",
+                    });
+                }
+            });
+        }
+    } else {
+        console.log("O navegador não suporta notificações.");
+    }
+    </script>
+</body>
+</html>

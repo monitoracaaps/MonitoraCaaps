@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="stylelogin.css">
+    <title>Tela Login</title>
+</head>
+<div id="particles-js" class="loader">
+    <img src="img/Logo.png" alt="Sua Logo">
+</div>
+<body>
+  
+    <div class="main-content">
+
+   <img style="width: 220px;
+            margin: 0 auto; /* Centralizar horizontalmente no computador */
+            display: block; /* Garante que a margem funcione */
+            margin-top: 80px;" src="img/Logo.png"></img>
+
+    <div class="login-container">
+        <h1 style="font-size: 25px; color: #ffffff;">Bem-Vindo!</h1>
+        <div class="input-container">
+            <i  style="color: #f8f8f8;" class="fas fa-envelope"></i>
+            <input type="email"  name="email" placeholder="Email" id="email" required>
+        </div>
+        <br>
+        <div class="input-container">
+            <i style="color: #f8f8f8;" class="fas fa-lock"></i>
+            <input type="password" placeholder="Senha" id="password" required>
+            <span class="toggle-password">
+                <i style="color: #f8f8f8; margin-bottom: 30px;" class="fas fa-eye"></i>
+            </span>
+        </div>
+        <br>
+        <button class="login-btn">
+            <div class="button-content">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <span class="loading-text">Entrar</span>
+            </div>
+        </button>
+        <div class="login-links">
+            <div class="container2">
+                <input type="checkbox" id="check">
+                <label style="margin-left: 11px;  text-decoration:underline; color:white; font-size:11px;" href="#" class="reset-password-link" class="show_button" for="check">Redefinir Senha</label>
+                <div class="background"></div>
+                <div class="alert_box">
+                  <a class="close" href=>&times;</a>
+                  
+                  <h1 style=" font-size: 29px;
+                  font-weight: 700;
+                  margin: 10px 0;
+                  color: white;  
+
+                  font-family:Arial, Helvetica, sans-serif;">Redefinir Senha</h1>
+                  <br>
+                  <br>
+              <div class="login-container">
+                  <div class="input-container">
+                    <!--form method="post" action="redefine.php"-->
+                      <input type="text" placeholder="Email" id="redemail" name="email" required>
+
+                  </div>
+                  </div>
+         
+                  <br>
+                  <br>
+                  <button class="login-btn" style="    padding: 15px 95px;
+                  " type="submit" name="redefinirsenha">
+                    <div class="button-content">
+                          <div class="loading-dots">
+                              <div class="dot"></div>
+                              <div class="dot"></div>
+                              <div class="dot"></div>
+                          </div>
+                          <br>
+                          <span class="loading-text" onclick="redefine()">Enviar</span>
+                        </div>
+                  </button>
+                <!--/form-->
+
+<br>
+                <div id="mensagem"></div>
+
+                </div>
+              </div>
+            <a style="margin-right: 14px;" href="pagcadastro.html" class="signup-link">Cadastre-se</a>
+
+        </div>
+    </div>
+    </div>
+</body>
+    <script src="indexjs.js"></script>
+
+</html>
